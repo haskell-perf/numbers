@@ -1,12 +1,6 @@
-{-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE BangPatterns #-}
-
 module Main (main) where
 
-import Control.DeepSeq
-import Control.Exception (evaluate)
 import Control.Monad
-import Control.Monad.ST
 import Criterion.Main
 import Criterion.Types
 import System.Directory
@@ -19,20 +13,36 @@ main = do
   defaultMainWith
     defaultConfig {csvFile = Just fp}
     [ bgroup
-        "Subtraction"
+        "Addition"
         (concat
-           [ [ bench ("Int:" ++ show i) (whnf count'Int i)
+           [ [ bench ("Int:" ++ show i) (whnf add'Int (- i))
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
              ]
-           , [ bench ("Integer:" ++ show i) (whnf count'Integer i)
+           , [ bench ("Integer:" ++ show i) (whnf add'Integer (- i))
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
              ]
            ])
+    ,  bgroup
+         "Subtraction"
+         (concat
+            [ [ bench ("Int:" ++ show i) (whnf subtract'Int i)
+              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
+              ]
+            , [ bench ("Integer:" ++ show i) (whnf subtract'Integer i)
+              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
+              ]
+            ])
     ]
   where
-    count'Integer :: Integer -> ()
-    count'Integer 0 = ()
-    count'Integer a = count'Integer (a - 1)
-    count'Int :: Int -> ()
-    count'Int 0 = ()
-    count'Int a = count'Int (a - 1)
+    subtract'Integer :: Integer -> ()
+    subtract'Integer 0 = ()
+    subtract'Integer a = subtract'Integer (a - 1)
+    subtract'Int :: Int -> ()
+    subtract'Int 0 = ()
+    subtract'Int a = subtract'Int (a - 1)
+    add'Integer :: Integer -> ()
+    add'Integer 0 = ()
+    add'Integer a = add'Integer (a + 1)
+    add'Int :: Int -> ()
+    add'Int 0 = ()
+    add'Int a = add'Int (a + 1)
