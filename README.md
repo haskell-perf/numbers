@@ -1,4 +1,4 @@
-# sequences
+# numbers
 
 Benchmarks for numbers: ints, doubles, bignums, rationals, etc.
 
