@@ -21,10 +21,10 @@ main = do
     [ bgroup
         "Addition"
         (concat
-           [ [ bench ("Int " ++ show i) (whnf count i)
+           [ [ bench ("Int:" ++ show i) (whnf count i)
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
              ]
-           , [ bench ("Integer " ++ show i) (whnf count'Int i)
+           , [ bench ("Integer:" ++ show i) (whnf count'Int i)
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
              ]
            ])
