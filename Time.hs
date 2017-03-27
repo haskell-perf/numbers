@@ -19,7 +19,7 @@ main = do
   defaultMainWith
     defaultConfig {csvFile = Just fp}
     [ bgroup
-        "Addition"
+        "Subtraction"
         (concat
            [ [ bench ("Int:" ++ show i) (whnf count'Int i)
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
