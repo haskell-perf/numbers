@@ -35,4 +35,4 @@ main = do
     count a = count (a - 1)
     count'Int :: Int -> ()
     count'Int 0 = ()
-    count'Int a = count'Int (a + (-1))
+    count'Int a = count'Int (a - 1)
