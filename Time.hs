@@ -21,18 +21,18 @@ main = do
     [ bgroup
         "Addition"
         (concat
-           [ [ bench ("Int:" ++ show i) (whnf count i)
+           [ [ bench ("Int:" ++ show i) (whnf count'Int i)
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
              ]
-           , [ bench ("Integer:" ++ show i) (whnf count'Int i)
+           , [ bench ("Integer:" ++ show i) (whnf count'Integer i)
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
              ]
            ])
     ]
   where
-    count :: Integer -> ()
-    count 0 = ()
-    count a = count (a - 1)
+    count'Integer :: Integer -> ()
+    count'Integer 0 = ()
+    count'Integer a = count'Integer (a - 1)
     count'Int :: Int -> ()
     count'Int 0 = ()
     count'Int a = count'Int (a - 1)
