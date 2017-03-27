@@ -13,7 +13,7 @@ benchmark time
   ghc-options:       -Wall -O2 -rtsopts
   main-is:           Time.hs
   build-depends:     base
-                   , directory
+                   , directory, scientific
                    , ghc-prim
                    , criterion
                    , deepseq
