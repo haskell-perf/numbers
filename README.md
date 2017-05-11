@@ -30,3 +30,17 @@ For all benchmarks:
 |Double|6.506 ns|13.93 ns|0.128 μs|1.160 μs|11.50 μs|0.116 ms|1.151 ms|
 |Scientific|246.2 ns|1571 ns|14.22 μs|140.5 μs|1399 μs|14.05 ms|141.1 ms|
 
+## Integer division
+
+|Name|1000|10000|100000|1000000|10000000|
+|---|---|---|---|---|---|
+|Int|12.23 μs|121.5 μs|1.227 ms|12.25 ms|122.9 ms|
+|Integer|16.20 μs|161.4 μs|1.618 ms|16.15 ms|160.8 ms|
+
+## Decimal division
+
+|Name|10|100|1000|
+|---|---|---|---|
+|Rational|0.953 μs|11.23 μs|0.150 ms|
+|Double|0.030 μs|0.287 μs|0.003 ms|
+|Scientific|7.654 μs|737.3 μs|109.8 ms|

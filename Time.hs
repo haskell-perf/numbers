@@ -1,3 +1,5 @@
+{-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module Main (main) where
 
 import Control.Monad
@@ -52,6 +54,29 @@ main = do
              | i <- [1, 10, 100, 1000, 10000, 100000, 1000000]
              ]
            ])
+    , bgroup
+        "Integer division"
+        (concat
+           [ [ bench ("Int:" ++ scale i) (whnf div'Int i)
+             | i <- [1000,10000, 100000, 1000000, 10000000]
+             ]
+           , [ bench ("Integer:" ++ scale i) (whnf div'Integer i)
+             | i <- [1000,10000, 100000, 1000000, 10000000]
+             ]
+           ])
+    , bgroup
+        "Decimal division"
+        (concat
+           [ [ bench ("Rational:" ++ scale i) (whnf div'Rational i)
+             | i <- [10, 100, 1000]
+             ]
+           , [ bench ("Double:" ++ scale i) (whnf div'Double i)
+             | i <- [10, 100, 1000]
+             ]
+           , [ bench ("Scientific:" ++ scale i) (whnf div'Scientific i)
+             | i <- [10, 100, 1000]
+             ]
+           ])
     ]
   where
     subtract'Integer :: Integer -> ()
@@ -84,6 +109,31 @@ main = do
     add'Scientific :: Scientific -> ()
     add'Scientific 0 = ()
     add'Scientific a = add'Scientific (a + 1)
+    div'Rational :: Int -> Rational
+    div'Rational i = go i (fromIntegral i)
+      where
+        go 0 (!c) = c
+        go i (!c) = go (i - 1) (c / 2)
+    div'Scientific :: Int -> Scientific
+    div'Scientific i = go i (fromIntegral i)
+      where
+        go 0 (!c) = c
+        go i (!c) = go (i - 1) (c / 2)
+    div'Double :: Int -> Double
+    div'Double i = go i (fromIntegral i)
+      where
+        go 0 (!c) = c
+        go i (!c) = go (i - 1) (c / 2)
+    div'Int :: Int -> Int
+    div'Int i = go i (fromIntegral i)
+      where
+        go 0 (!c) = c
+        go i (!c) = go (i - 1) (div c 2)
+    div'Integer :: Int -> Integer
+    div'Integer i = go i (fromIntegral i)
+      where
+        go 0 (!c) = c
+        go i (!c) = go (i - 1) (div c 2)
 
 -- | Show without any % 1 or .0 extensions.
 scale :: Show a => a -> String
